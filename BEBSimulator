@@ -1,0 +1,51 @@
+import java.util.ArrayList;
+
+public class BEBSimulator {
+	private int number_of_nodes = 5;
+	private int number_of_time_slots = 0;
+	private double probability_node_sendFrame = 0.5;
+	
+	// Assuming nodes can also be stored in Arraylists
+	public void simulate() {
+		int count = 0;
+		Node[] nodes = new Node[number_of_nodes];
+		for (int i = 0; i < number_of_nodes; i++)
+			nodes[i] = new Node();
+		// As long as a node needs to send, loop
+		while (count < number_of_nodes) {
+			String output = "";
+			ArrayList<Integer> senders = new ArrayList<Integer>();
+			// Calls sendFrame for each node
+			for (int i = 0; i < nodes.length; i ++) {
+				if (nodes[i] != null)
+					if (nodes[i].sendFrame(probability_node_sendFrame))
+						senders.add(i);
+			}
+			if (senders.isEmpty()) {
+				output = "[UNUSED] ";
+			}
+			else if (senders.size() == 1) {
+				count++;
+				nodes[senders.get(0)] = null;
+				output = "[SEND " + senders.get(0) + "] ";
+			}
+			else {
+				output = "[COLLISON ";
+				for (int i = 0; i < senders.size(); i++) {
+					probability_node_sendFrame = probability_node_sendFrame / 2;
+					nodes[senders.get(i)].collision((int) ( 1 / probability_node_sendFrame));
+					output += senders.get(i) + " ";
+				}
+				output += "] ";
+			}
+			System.out.print(output);
+			number_of_time_slots++;
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		BEBSimulator test = new BEBSimulator();
+		test.simulate();
+	}
+}
