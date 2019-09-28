@@ -1,0 +1,34 @@
+
+public class Node {
+	private int timeSlotsToSkip = 1;
+	
+	public boolean sendFrame(double probability) {
+		if (this.timeSlotsToSkip == 0) {
+			if (Math.random() > probability)
+				return true;
+			else
+				return false;
+		}
+		else {
+			this.timeSlotsToSkip--;
+			if (this.timeSlotsToSkip == 0)
+				return true;
+			else
+				return false;
+		}
+	}
+	
+	public void collision(int n) {
+		this.timeSlotsToSkip = (int) (Math.random() * n);
+	}
+	
+	/*	
+	public static void main(String[] args) {
+		Node test = new Node();
+		System.out.println(test.sendFrame(0.00));
+		System.out.println(test.timeSlotsToSkip);
+		test.collision(8);		
+		System.out.println(test.timeSlotsToSkip);
+	}
+	*/
+}
