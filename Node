@@ -1,6 +1,7 @@
 
 public class Node {
 	private int timeSlotsToSkip = 1;
+	private int nodeGuess = 1;
 	
 	public boolean sendFrame(double probability) {
 		if (this.timeSlotsToSkip == 0) {
@@ -18,8 +19,9 @@ public class Node {
 		}
 	}
 	
-	public void collision(int n) {
-		this.timeSlotsToSkip = (int) (Math.random() * n);
+	public void collision() {
+		nodeGuess *= 2;
+		this.timeSlotsToSkip = (int) (Math.random() * nodeGuess) + 1;
 	}
 	
 	/*	
