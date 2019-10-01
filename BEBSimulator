@@ -1,14 +1,13 @@
 import java.util.ArrayList;
 
 public class BEBSimulator {
-	private int number_of_nodes = 5;
-	private int number_of_time_slots = 2;
-	private double probability_node_sendFrame = 1 / number_of_time_slots;
+	private int number_of_nodes;
+	private int number_of_time_slots;
+	private double probability_node_sendFrame;
 	
 	
 	public void timeSlotLoop(Node[] nodes) {
 		Node[] temp = nodes;
-		boolean breakCheck = false;
 		for (int i = 0; i < number_of_time_slots; i++) {
 			ArrayList<Integer> senders = new ArrayList<Integer>();
 			// Calls sendFrame for each node
@@ -22,28 +21,25 @@ public class BEBSimulator {
 			}
 			else if (senders.size() == 1) {
 				temp[senders.get(0)] = null;
-				System.out.print("[SEND " + senders.get(0) + "] ");
+				System.out.print("[SEND " + (senders.get(0) + 1) + "] ");
 			}
 			else {
 				String output = "[COLLISON ";
-				probability_node_sendFrame = probability_node_sendFrame / 2;
-				number_of_time_slots = number_of_time_slots * 2;
 				for (int j = 0; j < senders.size(); j++) {
-					temp[senders.get(j)].collision(number_of_time_slots);
-					output += senders.get(j) + " ";
+					temp[senders.get(j)].collision();
+					output += (senders.get(j) + 1) + " ";
 				}
 				output += "] ";
 				System.out.print(output);
-				breakCheck = true;
-				break;
 			}
 		}
-		if (breakCheck)
-			timeSlotLoop(temp);
 	}
 	
 	
-	public void simulate() {
+	public void simulate(int numNodes, int numTimeSlots, double sendProb) {
+		number_of_nodes = numNodes;
+		number_of_time_slots = numTimeSlots;
+		probability_node_sendFrame = sendProb;
 		Node[] nodes = new Node[number_of_nodes];
 		for (int i = 0; i < number_of_nodes; i++)
 			nodes[i] = new Node();
@@ -54,6 +50,6 @@ public class BEBSimulator {
 	
 	public static void main(String[] args) {
 		BEBSimulator test = new BEBSimulator();
-		test.simulate();
+		test.simulate(5, 20, 0.5);
 	}
 }
