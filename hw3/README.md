@@ -1,4 +1,4 @@
-Homework 3: Network Forwarding (IP Prefix / NetMask Practice)
+# Homework 3: Network Forwarding (IP Prefix / NetMask Practice)
 
 NetFwd is supposed to take in a file at the command line call that has the following format:
 
